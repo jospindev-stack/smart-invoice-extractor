@@ -2,11 +2,11 @@
 
 > An AI-powered invoice extraction system that automatically converts PDF invoices into structured JSON using FastAPI, Groq Llama 3.3, and Streamlit.
 
-![Python](...)
-![FastAPI](...)
-![Streamlit](...)
-![Groq](...)
-![Docker](...)
+![CI](https://github.com/jospindev-stack/smart-invoice-extractor/actions/workflows/ci.yml/badge.svg)
+![Python](https://img.shields.io/badge/Python-3.11%2B-3776AB?logo=python&logoColor=white)
+![FastAPI](https://img.shields.io/badge/FastAPI-0.115.5-009688?logo=fastapi&logoColor=white)
+![Streamlit](https://img.shields.io/badge/Streamlit-1.40.1-FF4B4B?logo=streamlit&logoColor=white)
+![Docker](https://img.shields.io/badge/Docker-Ready-2496ED?logo=docker&logoColor=white)
 ![License](https://img.shields.io/badge/License-MIT-green)
 
 ---
@@ -15,7 +15,7 @@
 
 Smart Invoice Extractor is a full-stack application that extracts structured information from PDF invoices using artificial intelligence.
 
-The application combines PDF text extraction with Groq Llama 3.3 to automatically identify invoice metadata, vendor and customer information, line items, payment details, and financial totals. It exposes a REST API through FastAPI and provides an intuitive Streamlit interface for interactive document analysis.
+The application combines PDF text extraction with Groq Llama 3.3 to identify invoice metadata, vendor and customer information, line items, payment details, and financial totals. It exposes a REST API through FastAPI and provides a Streamlit interface for interactive document analysis.
 
 ---
 
@@ -28,6 +28,9 @@ The application combines PDF text extraction with Groq Llama 3.3 to automaticall
 | AI               | Groq Llama 3.3 |
 | PDF Processing   | pdfplumber     |
 | Validation       | Pydantic       |
+| Testing          | pytest         |
+| Coverage         | pytest-cov     |
+| CI               | GitHub Actions |
 | Containerization | Docker         |
 
 ---
@@ -44,6 +47,8 @@ The application combines PDF text extraction with Groq Llama 3.3 to automaticall
 | Confidence Score             | AI confidence estimation for extracted data   |
 | REST API                     | FastAPI endpoints for integration             |
 | Interactive Interface        | Streamlit web application                     |
+| Automated Tests              | API and PDF extraction tests with pytest      |
+| Continuous Integration       | Automated test execution with GitHub Actions  |
 | Docker Support               | Ready for containerized deployment            |
 
 ---
@@ -52,27 +57,27 @@ The application combines PDF text extraction with Groq Llama 3.3 to automaticall
 
 ```text
 PDF Invoice
-      │
-      ▼
+      |
+      v
 PDF Text Extraction (pdfplumber)
-      │
-      ▼
+      |
+      v
 Raw Invoice Text
-      │
-      ▼
+      |
+      v
 Groq Llama 3.3
-      │
-      ▼
+      |
+      v
 Structured JSON
-      │
-      ▼
+      |
+      v
 FastAPI REST API
-      │
-      ▼
+      |
+      v
 Streamlit Interface
-      │
-      ▼
-JSON • CSV • API Integration
+      |
+      v
+JSON / CSV / API Integration
 ```
 
 ---
@@ -81,29 +86,35 @@ JSON • CSV • API Integration
 
 ```text
 smart-invoice-extractor/
-│
-├── backend/
-│   ├── main.py
-│   ├── config.py
-│   ├── models/
-│   │   └── schemas.py
-│   ├── routers/
-│   │   └── invoice.py
-│   └── services/
-│       ├── pdf_extractor.py
-│       └── groq_parser.py
-│
-├── frontend/
-│   └── app.py
-│
-├── Dockerfile
-├── Dockerfile.frontend
-├── docker-compose.yml
-├── requirements.txt
-├── .env.example
-├── run.bat
-├── run.sh
-└── README.md
+|
+|-- .github/
+|   `-- workflows/
+|       `-- ci.yml
+|-- backend/
+|   |-- main.py
+|   |-- config.py
+|   |-- models/
+|   |   `-- schemas.py
+|   |-- routers/
+|   |   `-- invoice.py
+|   `-- services/
+|       |-- pdf_extractor.py
+|       `-- groq_parser.py
+|-- frontend/
+|   `-- app.py
+|-- tests/
+|   |-- conftest.py
+|   |-- test_invoice_api.py
+|   `-- test_pdf_extractor.py
+|-- Dockerfile
+|-- Dockerfile.frontend
+|-- docker-compose.yml
+|-- requirements.txt
+|-- requirements-dev.txt
+|-- .env.example
+|-- run.bat
+|-- run.sh
+`-- README.md
 ```
 
 ---
@@ -113,40 +124,47 @@ smart-invoice-extractor/
 Before running the project, make sure you have:
 
 - Python 3.11 or later
-- A free Groq API key
-- Docker & Docker Compose (optional)
+- A Groq API key
+- Docker and Docker Compose (optional)
 
-Create a free API key at:
-
-https://console.groq.com
+Groq API keys can be created from the Groq Console.
 
 ---
 
 ## Installation
 
 ```bash
-# Clone the repository
 git clone https://github.com/jospindev-stack/smart-invoice-extractor.git
-
 cd smart-invoice-extractor
 
-# Create a virtual environment
 python -m venv .venv
+```
 
-# Windows
+Windows
+
+```powershell
 .venv\Scripts\activate
+```
 
-# Linux / macOS
+Linux / macOS
+
+```bash
 source .venv/bin/activate
+```
 
-# Install dependencies
+Install dependencies:
+
+```bash
 pip install -r requirements.txt
+```
 
-# Configure environment variables
+Configure environment variables:
+
+```bash
 cp .env.example .env
 ```
 
-Edit the `.env` file and add your Groq API key.
+Then set your Groq API key in `.env`:
 
 ```text
 GROQ_API_KEY=your_api_key
@@ -156,7 +174,7 @@ GROQ_API_KEY=your_api_key
 
 ## Running Locally
 
-### Option 1 – Helper Script
+### Option 1 - Helper Script
 
 Windows
 
@@ -171,7 +189,7 @@ chmod +x run.sh
 ./run.sh
 ```
 
-### Option 2 – Manual Startup
+### Option 2 - Manual Startup
 
 Backend
 
@@ -191,17 +209,16 @@ streamlit run frontend/app.py
 
 ```bash
 cp .env.example .env
-
 docker compose up --build
 ```
 
-Run in background
+Run in background:
 
 ```bash
 docker compose up -d
 ```
 
-Stop services
+Stop services:
 
 ```bash
 docker compose down
@@ -220,23 +237,29 @@ docker compose down
 
 ### Extract Invoice
 
-```
+```text
 POST /api/extract
 ```
 
 Accepts a PDF invoice and returns structured JSON.
 
-### Request
+Request content type:
 
-Content-Type
-
-```
+```text
 multipart/form-data
 ```
 
 | Field        | Type     | Description                        |
 | ------------ | -------- | ---------------------------------- |
 | invoice_file | PDF File | Searchable PDF invoice (max 20 MB) |
+
+### Health Check
+
+```text
+GET /api/health
+```
+
+Returns the current API service status.
 
 ---
 
@@ -275,7 +298,7 @@ The application currently supports:
 - Multi-page invoices
 - English and French invoices
 
-Scanned PDFs without OCR are not supported.
+Scanned PDFs without an OCR text layer are not supported.
 
 ---
 
@@ -297,10 +320,48 @@ The AI returns a confidence score for each extraction.
 
 | Score       | Interpretation                  |
 | ----------- | ------------------------------- |
-| 0.90 – 1.00 | Excellent extraction            |
-| 0.80 – 0.89 | High confidence                 |
-| 0.60 – 0.79 | Medium confidence               |
+| 0.90 - 1.00 | Excellent extraction            |
+| 0.80 - 0.89 | High confidence                 |
+| 0.60 - 0.79 | Medium confidence               |
 | Below 0.60  | Manual verification recommended |
+
+---
+
+## Testing
+
+Development dependencies are isolated in `requirements-dev.txt`.
+
+Install them with:
+
+```bash
+pip install -r requirements-dev.txt
+```
+
+Run the test suite with coverage:
+
+```bash
+pytest -q --cov=backend --cov-report=term-missing
+```
+
+The current suite covers:
+
+- PDF text extraction and page counting
+- skipping PDF pages without extractable text
+- health endpoint behavior
+- rejection of non-PDF uploads
+- successful structured invoice responses with the Groq parser mocked
+- rejection of PDFs without extractable text
+- AI parser failure handling
+
+Tests do not require a real Groq API call.
+
+---
+
+## Continuous Integration
+
+GitHub Actions runs the test suite automatically on pushes to `main`, pushes to `test/**` branches, and pull requests targeting `main`.
+
+The workflow uses Python 3.12 and validates the backend with pytest and coverage reporting.
 
 ---
 
@@ -317,14 +378,14 @@ The AI returns a confidence score for each extraction.
 
 ## Security
 
-The application includes several security features:
+The application includes:
 
 - Environment-based API key management
 - File size validation
-- PDF file validation
+- PDF content type validation
 - Structured JSON responses
 - Server-side AI requests
-- Pydantic request validation
+- Pydantic response validation
 - Configurable CORS policy
 
 ---
@@ -341,28 +402,26 @@ Compatible with:
 - Azure App Service
 - Google Cloud Run
 
-Start command
+Start command:
 
 ```bash
 uvicorn backend.main:app --host 0.0.0.0 --port $PORT
 ```
 
-Required environment variables
+Required environment variables:
 
 - GROQ_API_KEY
 - GROQ_MODEL
 
----
-
 ### Frontend
 
-Deploy the Streamlit application on:
+The Streamlit application can be deployed with:
 
 - Streamlit Community Cloud
 - Docker
 - Railway
 
-Start command
+Start command:
 
 ```bash
 streamlit run frontend/app.py
@@ -383,8 +442,7 @@ Planned improvements:
 - User authentication
 - Invoice history
 - Search functionality
-- Unit tests
-- Integration tests
+- More integration and edge-case tests
 
 ---
 
@@ -405,9 +463,7 @@ Possible future features include:
 
 ## License
 
-This project is licensed under the **MIT License**.
-
-You are free to use, modify, and distribute it under the terms of the MIT License.
+This project is licensed under the MIT License.
 
 ---
 
@@ -416,8 +472,6 @@ You are free to use, modify, and distribute it under the terms of the MIT Licens
 **Jospin Meka**
 
 Software Developer
-
-Passionate about backend development, artificial intelligence, cloud technologies, and software architecture.
 
 - GitHub: https://github.com/jospindev-stack
 - Portfolio: https://jospindev.netlify.app
